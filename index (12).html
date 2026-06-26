@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Checklist AT — EDP-ES DEPA</title>
+<meta name="theme-color" content="#0F1B2D"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Checklist AT"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-192.png"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0F1B2D;color:#E8EDF4;font-family:'Inter','Segoe UI',sans-serif;min-height:100vh}
+input,select,textarea,button{font-family:inherit}
+.header{background:#162236;border-bottom:1px solid #2A3F5F;padding:14px 20px 10px}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.header-left{display:flex;align-items:center;gap:12px}
+.header-icon{background:#F5A623;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header-title{font-weight:800;font-size:16px;color:#fff}
+.header-sub{font-size:11px;color:#2ECC71}
+.user-badge{font-size:11px;padding:4px 10px;border-radius:20px;border:none;cursor:pointer;font-weight:600}
+.user-admin{background:#3A2E10;color:#F5A623}
+.user-tech{background:#0D2640;color:#3B9EE8}
+
+/* MAIN MENU TABS */
+.tabs{display:flex;background:#162236;border-bottom:1px solid #2A3F5F;overflow-x:auto}
+.tab{flex-shrink:0;padding:11px 10px;background:none;border:none;border-bottom:2px solid transparent;color:#7A92AE;font-size:11px;font-weight:400;cursor:pointer;white-space:nowrap}
+.tab.active{border-bottom-color:#F5A623;color:#F5A623;font-weight:700}
+
+/* SUB MENU */
+.submenu{display:flex;background:#1C2D45;border-bottom:1px solid #2A3F5F;overflow-x:auto}
+.subtab{flex-shrink:0;padding:9px 14px;background:none;border:none;border-bottom:2px solid transparent;color:#7A92AE;font-size:12px;cursor:pointer;white-space:nowrap}
+.subtab.active{border-bottom-color:#F5A623;color:#F5A623;font-weight:700}
+
+.content{max-width:600px;margin:0 auto;padding:20px 16px 80px}
+.page-title{color:#fff;font-size:18px;font-weight:700;margin-bottom:4px}
+.page-sub{color:#7A92AE;font-size:13px;margin-bottom:24px}
+.section-title{color:#F5A623;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #2A3F5F;padding-bottom:6px;margin-bottom:14px;margin-top:24px}
+.field{margin-bottom:14px}
+.field label{display:block;color:#7A92AE;font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px}
+.field input,.field select,.field textarea{width:100%;background:#162236;border:1px solid #2A3F5F;border-radius:8px;color:#E8EDF4;padding:9px 14px;font-size:14px}
+.field textarea{resize:vertical}.field select{appearance:none}
+.field-hint{color:#7A92AE;font-size:11px;margin-top:4px;font-style:italic}
+.item-check{margin-bottom:14px}
+.item-label{color:#E8EDF4;font-size:14px;margin-bottom:6px;line-height:1.4}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-opt{background:#1C2D45;color:#7A92AE;border:1px solid #2A3F5F;border-radius:8px;padding:5px 16px;font-size:13px;cursor:pointer}
+.btn-opt.sim{background:#2ECC71;color:#fff;border-color:#2ECC71;font-weight:700}
+.btn-opt.nao{background:#E74C3C;color:#fff;border-color:#E74C3C;font-weight:700}
+.btn-opt.na{background:#7A92AE;color:#fff;border-color:#7A92AE;font-weight:700}
+.obs-input{margin-top:6px;width:100%;background:#162236;border:1px solid #2A3F5F;border-radius:8px;color:#E8EDF4;padding:7px 12px;font-size:13px}
+.yesno{margin-bottom:16px}
+.yn-label{color:#E8EDF4;font-size:14px;margin-bottom:8px;line-height:1.4}
+.yn-btns{display:flex;gap:10px}
+.yn-btn{flex:1;padding:10px 0;border-radius:10px;border:2px solid #2A3F5F;background:#1C2D45;color:#7A92AE;font-size:15px;font-weight:700;cursor:pointer}
+.yn-btn.sim{border-color:#2ECC71;background:#0E3320;color:#2ECC71}
+.yn-btn.nao{border-color:#E74C3C;background:#3A1010;color:#E74C3C}
+.eq-selector{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.eq-btn{padding:7px 14px;border-radius:20px;border:1.5px solid #2A3F5F;background:#1C2D45;color:#7A92AE;font-size:13px;cursor:pointer}
+.eq-btn.active{border-color:#F5A623;background:#3A2E10;color:#F5A623;font-weight:700}
+.accordion{border:1px solid #2A3F5F;border-radius:10px;margin-bottom:12px;overflow:hidden}
+.accordion-header{width:100%;background:#1C2D45;border:none;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#E8EDF4;font-size:14px;font-weight:700}
+.accordion-body{padding:16px 16px 8px;background:#162236;display:none}
+.accordion-body.open{display:block}
+.photo-section{margin-bottom:16px}
+.photo-drop{border:2px dashed #2A3F5F;border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#162236}
+.photo-drop.missing{border-color:#E74C3C}
+.photo-thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.photo-thumb{position:relative}
+.photo-thumb img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #2A3F5F}
+.photo-thumb .remove{position:absolute;top:-6px;right:-6px;background:#E74C3C;border:none;border-radius:50%;width:20px;height:20px;color:#fff;font-size:11px;cursor:pointer}
+.btn-main{display:block;width:100%;margin-top:20px;padding:14px 0;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer}
+.btn-main.accent{background:#F5A623}.btn-main.green{background:#2ECC71}.btn-main.red{background:#E74C3C}.btn-main.muted{background:#7A92AE;cursor:not-allowed}
+.btn-add{background:#0D2640;color:#3B9EE8;border:1px solid #3B9EE8;border-radius:8px;padding:10px 18px;font-size:13px;cursor:pointer;margin-top:10px;display:inline-block}
+.sucesso{text-align:center;padding:48px 16px}
+.error-box{background:#3A1010;border:1px solid #E74C3C;border-radius:10px;padding:14px;margin-bottom:14px}
+.badge{border-radius:6px;padding:2px 10px;font-size:12px;font-weight:700}
+.badge.blue{background:#0D2640;color:#3B9EE8}.badge.green{background:#0E3320;color:#2ECC71}.badge.red{background:#3A1010;color:#E74C3C}.badge.purple{background:#2D1B69;color:#A78BFA}.badge.orange{background:#3A2E10;color:#F5A623}
+.card{background:#1C2D45;border:1px solid #2A3F5F;border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer}
+.card:hover{border-color:#F5A623}
+.card-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.card-title{color:#E8EDF4;font-weight:700;font-size:15px;margin-bottom:4px}
+.card-sub{color:#7A92AE;font-size:13px}
+.card-date{color:#7A92AE;font-size:12px}
+.card-actions{display:flex;gap:8px;margin-top:12px}
+.btn-sm{padding:6px 14px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer}
+.btn-pdf{background:#F5A623;color:#fff}.btn-del{background:#3A1010;color:#E74C3C;border:1px solid #E74C3C}
+.search-input{width:100%;background:#162236;border:1px solid #2A3F5F;border-radius:8px;color:#E8EDF4;padding:9px 14px;font-size:14px;margin-bottom:16px}
+.panel-count{color:#7A92AE;font-size:13px;margin-bottom:12px}
+.empty{color:#7A92AE;text-align:center;padding:40px}
+.apto-btns{display:flex;gap:12px;margin-bottom:8px}
+.apto-btn{flex:1;padding:14px 0;border-radius:10px;border:2px solid #2A3F5F;background:#1C2D45;color:#7A92AE;font-size:16px;font-weight:700;cursor:pointer}
+.apto-btn.sim{border-color:#2ECC71;background:#0E3320;color:#2ECC71}
+.apto-btn.nao{border-color:#E74C3C;background:#3A1010;color:#E74C3C}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 16px}
+.modal{background:#162236;border-radius:14px;width:100%;max-width:600px;padding:24px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-title{color:#fff;font-size:17px;font-weight:700}
+.modal-close{background:none;border:none;color:#7A92AE;font-size:22px;cursor:pointer}
+.detail-label{color:#F5A623;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;margin-top:16px;display:block}
+.detail-row{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid #1C2D45}
+.detail-q{color:#7A92AE;font-size:13px;flex:1;line-height:1.4}
+.detail-a{font-size:13px;font-weight:700;flex-shrink:0}
+.detail-a.sim{color:#2ECC71}.detail-a.nao{color:#E74C3C}.detail-a.na{color:#7A92AE}
+.photo-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.photo-grid img{width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid #2A3F5F;cursor:pointer}
+.mov-box{background:#1C2D45;border:1px solid #2A3F5F;border-radius:10px;padding:14px;margin-bottom:12px}
+.mov-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mov-title{color:#3B9EE8;font-size:13px;font-weight:700}
+.dano-box{background:#1C2D45;border:1px solid #2A3F5F;border-radius:10px;padding:14px;margin-bottom:10px}
+.dano-title{color:#E74C3C;font-size:13px;font-weight:700}
+.gps-box{background:#1C2D45;border:1px solid #2A3F5F;border-radius:8px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.menu-card{background:#1C2D45;border:1px solid #2A3F5F;border-radius:12px;padding:20px 16px;cursor:pointer;text-align:center;transition:all .15s}
+.menu-card:hover{border-color:#F5A623;background:#1E3050}
+.menu-card .mc-icon{font-size:32px;margin-bottom:8px}
+.menu-card .mc-title{color:#E8EDF4;font-size:14px;font-weight:700}
+.menu-card .mc-sub{color:#7A92AE;font-size:11px;margin-top:4px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.offline-banner{display:none;background:#E74C3C;color:#fff;padding:8px 16px;text-align:center;font-size:12px;font-weight:600;align-items:center;justify-content:center;gap:8px;position:sticky;top:0;z-index:200}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #7A92AE;border-top-color:#F5A623;border-radius:50%;animation:spin .6s linear infinite;margin-right:6px;vertical-align:middle}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-box{background:#162236;border:1px solid #2A3F5F;border-radius:16px;padding:32px 28px;width:100%;max-width:380px}
+.login-error{background:#3A1010;color:#E74C3C;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:none}
+.btn-login{width:100%;padding:13px;background:#F5A623;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px}
+.login-divider{text-align:center;color:#7A92AE;font-size:12px;margin:16px 0}
+.back-btn{background:none;border:none;color:#7A92AE;font-size:13px;cursor:pointer;padding:0;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.back-btn:hover{color:#E8EDF4}
+</style>
+</head>
+<body>
+
+<div id="offline-banner" class="offline-banner">📡 Sem internet — dados serão sincronizados quando conectar</div>
+<div id="login-screen" class="login-wrap">
+  <div class="login-box">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:40px">⚡</div>
+      <div style="font-size:20px;font-weight:800;color:#fff;margin-top:8px">Checklist AT</div>
+      <div style="font-size:12px;color:#7A92AE;margin-top:4px">EDP-ES — DEPA</div>
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <div class="field"><label>E-mail (Engenheiro)</label><input type="email" id="login-email" placeholder="seu@edp.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="field"><label>Código de acesso</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="btn-login" onclick="doLogin()">Entrar como Engenheiro</button>
+    <div class="login-divider">— ou —</div>
+    <button class="btn-login" style="background:#0D2640;color:#3B9EE8" onclick="doLoginTech()">🔧 Entrar como Técnico de Campo</button>
+    <div style="color:#7A92AE;font-size:11px;text-align:center;margin-top:12px">O técnico de campo não precisa de senha — funciona online e offline</div>
+  </div>
+</div>
+
+<div id="app-screen" style="display:none">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="header-icon">⚡</div>
+        <div>
+          <div class="header-title">Checklist AT — EDP-ES DEPA</div>
+          <div class="header-sub" id="conn-status">● Conectado</div>
+        </div>
+      </div>
+      <button class="user-badge" id="user-badge" onclick="doLogout()">Sair</button>
+    </div>
+  </div>
+  <div class="tabs" id="main-tabs">
+    <button class="tab active" onclick="showMain('home')">🏠 Início</button>
+    <button class="tab" onclick="showMain('checklist')">📋 Checklist Inicial</button>
+    <button class="tab" onclick="showMain('mov')">🚛 Movimentação</button>
+    <button class="tab" onclick="showMain('asbuilt')">📐 As Built</button>
+    <button class="tab" onclick="showMain('final')">✅ Final de Obra</button>
+    <button class="tab" onclick="showMain('painel')">📊 Painel</button>
+  </div>
+  <div id="submenu-bar" style="display:none">
+    <div class="submenu" id="submenu"></div>
+  </div>
+  <div class="content" id="main-content"></div>
+</div>
+<div id="modal-container"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCaXndhr4By1CSmQcWVeRQkkQTtjieELPI",
+  authDomain: "checklist-at.firebaseapp.com",
+  projectId: "checklist-at",
+  storageBucket: "checklist-at.firebasestorage.app",
+  messagingSenderId: "455879274955",
+  appId: "1:455879274955:web:cfa47b27909f64992c864e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const col = collection(db, "registros");
+const ADMIN_EMAILS = ["jose.luis.junior@edp.com","jose.chiabai@edp.com"];
+const ADMIN_CODES = ["DEPA@2024"];
+
+let currentUser=null, isAdmin=false, gpsCoords=null, allRegistros=[], saving=false, listenerStarted=false;
+let mainTab='home', subTab='rec';
+const photoStores={}, checkState={}, ynState={}, txtState={}, selState={};
+const eqSelected={rec:[],ent:[]};
+const accOpen={}, successState={rec:false,ent:false,lib:false,mov:false,asbuilt:false,final:false};
+let painelFiltro='';
+const danosState={};
+// movimentacao items
+let movItems=[];
+// asbuilt items
+let asbuiltItems=[];
+
+const $=id=>document.getElementById(id);
+
+// ── AUTH ──────────────────────────────────────────────────
+// ── SESSION LOCAL (funciona offline) ─────────────────────
+function saveSession(user) {
+  if(!user) { localStorage.removeItem('checklist_session'); return; }
+  localStorage.setItem('checklist_session', JSON.stringify({...user, savedAt: Date.now()}));
+}
+function loadSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem('checklist_session')||'null');
+    if(!s) return null;
+    if(Date.now() - s.savedAt > 60*24*60*60*1000) { localStorage.removeItem('checklist_session'); return null; } // 60 dias
+    return s;
+  } catch { return null; }
+}
+
+// Session loading moved to after all functions are defined (see bottom of script)
+window.doLogin=()=>{
+  const email=($('login-email').value||'').trim().toLowerCase();
+  const pass=$('login-pass').value.trim();
+  const err=$('login-error');
+  err.style.display='none';
+  // Verifica engenheiro
+  if(ADMIN_EMAILS.includes(email) && ADMIN_CODES.includes(pass)) {
+    const user={uid:'eng_'+email.split('@')[0], email, isAdmin:true, savedAt:Date.now()};
+    currentUser=user; isAdmin=true;
+    saveSession(user); showApp();
+  } else if(ADMIN_EMAILS.includes(email) && !ADMIN_CODES.includes(pass)) {
+    err.textContent='Código de acesso incorreto.'; err.style.display='block';
+  } else {
+    err.textContent='E-mail não reconhecido como engenheiro.'; err.style.display='block';
+  }
+};
+window.doLoginTech=()=>{
+  const user={uid:'tech_'+Date.now(), email:null, isAdmin:false, savedAt:Date.now()};
+  currentUser=user; isAdmin=false;
+  saveSession(user); showApp();
+};
+window.doLogout=()=>{
+  saveSession(null);
+  currentUser=null; isAdmin=false;
+  showLogin();
+};
+function showLogin(){
+  $('login-screen').style.display='flex';
+  $('app-screen').style.display='none';
+}
+function showApp(){
+  try {
+    $('login-screen').style.display='none';
+    $('app-screen').style.display='block';
+    const badge=$('user-badge');
+    if(badge){
+      if(isAdmin){badge.textContent='👤 Engenheiro · Sair';badge.className='user-badge user-admin';}
+      else{badge.textContent='🔧 Técnico · Sair';badge.className='user-badge user-tech';}
+    }
+    try { getGPS(); } catch(e){ console.warn('GPS erro:',e); }
+    try { renderPage(); } catch(e){ console.warn('renderPage erro:',e); }
+    try { startListener(); } catch(e){ console.warn('startListener erro:',e); }
+  } catch(e){ console.error('showApp erro:',e); }
+}
+
+// ── GPS ───────────────────────────────────────────────────
+function getGPS(){
+  if(!navigator.geolocation)return;
+  navigator.geolocation.getCurrentPosition(pos=>{
+    gpsCoords={lat:pos.coords.latitude.toFixed(6),lng:pos.coords.longitude.toFixed(6),acc:Math.round(pos.coords.accuracy)};
+    renderPage();
+  },()=>{gpsCoords=null;});
+}
+function gpsBox(){
+  if(gpsCoords)return`<div class="gps-box"><div style="font-size:18px">📍</div><div><div style="font-size:11px;color:#7A92AE">Localização capturada</div><div style="font-size:12px;color:#2ECC71;font-weight:600">Lat: ${gpsCoords.lat} | Lng: ${gpsCoords.lng} (±${gpsCoords.acc}m)</div></div></div>`;
+  return`<div class="gps-box"><div style="font-size:18px">📍</div><div style="color:#7A92AE;font-size:12px">Aguardando localização GPS...</div></div>`;
+}
+
+// ── PHOTO ─────────────────────────────────────────────────
+function compressImage(dataUrl,maxW=800,maxH=800,quality=0.6){
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(w>maxW||h>maxH){const r=Math.min(maxW/w,maxH/h);w=Math.round(w*r);h=Math.round(h*r);}
+      const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      res(canvas.toDataURL('image/jpeg',quality));
+    };
+    img.src=dataUrl;
+  });
+}
+function getPhotos(id){return photoStores[id]||[];}
+window.handleFiles=async(id,input)=>{
+  for(const f of Array.from(input.files)){
+    await new Promise(res=>{
+      const reader=new FileReader();
+      reader.onload=async e=>{
+        const compressed=await compressImage(e.target.result);
+        photoStores[id]=[...(photoStores[id]||[]),{name:f.name,data:compressed}];
+        renderThumbs(id);res();
+      };
+      reader.readAsDataURL(f);
+    });
+  }
+  input.value='';
+};
+window.removePhotoGlobal=(id,idx)=>{photoStores[id]=photoStores[id].filter((_,i)=>i!==idx);renderThumbs(id);};
+function renderThumbs(id){
+  const el=$(`thumbs-${id}`);if(!el)return;
+  el.innerHTML=getPhotos(id).map((p,i)=>`<div class="photo-thumb"><img src="${p.data}"/><button class="remove" onclick="removePhotoGlobal('${id}',${i})">✕</button></div>`).join('');
+  const drop=$(`drop-${id}`);if(drop)drop.classList.toggle('missing',getPhotos(id).length===0&&drop.dataset.required==='1');
+}
+function refreshAllThumbs(){
+  Object.keys(photoStores).forEach(id=>{if(photoStores[id]&&photoStores[id].length)renderThumbs(id);});
+}
+function photoSection(id,label,hint='',required=true,minCount=1){
+  return`<div class="photo-section">
+    <span style="display:block;font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.8px;color:#7A92AE">${label}${required?` <span style="color:#E74C3C">* obrigatório${minCount>1?' (mín. '+minCount+')':''}</span>`:''}</span>
+    ${hint?`<div style="color:#F5A623;font-size:11px;margin-bottom:8px;font-style:italic">⚠️ ${hint}</div>`:''}
+    <div class="photo-drop${required&&getPhotos(id).length===0?' missing':''}" id="drop-${id}" data-required="${required?1:0}" onclick="document.getElementById('file-${id}').click()">
+      <div style="font-size:26px">📷</div>
+      <div style="color:#7A92AE;font-size:13px;margin-top:4px">Toque para adicionar foto(s)</div>
+    </div>
+    <input type="file" id="file-${id}" accept="image/*" multiple style="display:none" onchange="handleFiles('${id}',this)"/>
+    <div class="photo-thumbs" id="thumbs-${id}"></div>
+  </div>`;
+}
+
+// ── FORM HELPERS ──────────────────────────────────────────
+function getCheck(id){return checkState[id]||{resp:'',obs:''};}
+window.setCheck=(id,val)=>{checkState[id]={...getCheck(id),resp:val};renderPage();};
+window.setCheckObs=(id,val)=>{checkState[id]={...getCheck(id),obs:val};};
+function getYN(id){return ynState[id]||'';}
+window.setYN=(id,val)=>{ynState[id]=val;renderPage();};
+function getTxt(id){return txtState[id]||'';}
+window.setTxt=(id,val)=>{txtState[id]=val;};
+function getSel(id){return selState[id]||'';}
+window.setSel=(id,val)=>{selState[id]=val;renderPage();};
+
+function itemCheck(id,label){
+  const s=getCheck(id);
+  return`<div class="item-check"><div class="item-label">${label}</div><div class="btns">
+    <button class="btn-opt${s.resp==='Sim'?' sim':''}" onclick="setCheck('${id}','Sim')">Sim</button>
+    <button class="btn-opt${s.resp==='Não'?' nao':''}" onclick="setCheck('${id}','Não')">Não</button>
+    <button class="btn-opt${s.resp==='N/A'?' na':''}" onclick="setCheck('${id}','N/A')">N/A</button>
+  </div><input class="obs-input" placeholder="Observação (opcional)" value="${(s.obs||'').replace(/"/g,'&quot;')}" oninput="setCheckObs('${id}',this.value)"/></div>`;
+}
+function yesNo(id,label){
+  const v=getYN(id);
+  return`<div class="yesno"><div class="yn-label">${label}</div><div class="yn-btns">
+    <button class="yn-btn${v==='Sim'?' sim':''}" onclick="setYN('${id}','Sim')">Sim</button>
+    <button class="yn-btn${v==='Não'?' nao':''}" onclick="setYN('${id}','Não')">Não</button>
+  </div></div>`;
+}
+function field(id,label,placeholder='',required=false){
+  return`<div class="field">${label?`<label>${label}${required?' <span style="color:#E74C3C">*</span>':''}</label>`:''}<input value="${(getTxt(id)||'').replace(/"/g,'&quot;')}" placeholder="${placeholder}" oninput="setTxt('${id}',this.value)"/></div>`;
+}
+function textarea(id,label,placeholder='',rows=3){
+  return`<div class="field">${label?`<label>${label}</label>`:''}<textarea rows="${rows}" placeholder="${placeholder}" oninput="setTxt('${id}',this.value)">${(getTxt(id)||'').replace(/</g,'&lt;')}</textarea></div>`;
+}
+function selectField(id,label,options,required=false){
+  const v=getSel(id)||'';
+  return`<div class="field"><label>${label}${required?' <span style="color:#E74C3C">*</span>':''}</label>
+    <select onchange="setSel('${id}',this.value)">
+      <option value="">Selecione...</option>
+      ${options.map(o=>`<option value="${o}"${v===o?' selected':''}>${o}</option>`).join('')}
+    </select></div>`;
+}
+function eqSelector(form,options){
+  return`<div class="eq-selector">${options.map(eq=>{const a=eqSelected[form].includes(eq);return`<button class="eq-btn${a?' active':''}" onclick="toggleEq('${form}','${eq}')">${a?'✓ ':''}${eq}</button>`;}).join('')}</div>`;
+}
+window.toggleEq=(form,eq)=>{const a=eqSelected[form],i=a.indexOf(eq);i>=0?a.splice(i,1):a.push(eq);renderPage();};
+function accordion(id,title,content){
+  if(accOpen[id]===undefined)accOpen[id]=true;
+  return`<div class="accordion"><button class="accordion-header" onclick="toggleAcc('${id}')"><span>${title}</span><span style="color:#F5A623">${accOpen[id]?'▲':'▼'}</span></button><div class="accordion-body${accOpen[id]?' open':''}">${content}</div></div>`;
+}
+window.toggleAcc=id=>{accOpen[id]=!accOpen[id];renderPage();};
+function sucesso(key,icon,msg,color){
+  return`<div class="sucesso"><div style="font-size:52px">${icon}</div><div style="color:${color};font-size:20px;font-weight:700;margin-top:12px">${msg}</div><div style="color:#7A92AE;margin-top:8px;font-size:14px">Dados salvos na nuvem ☁️</div><button class="btn-main accent" style="margin-top:24px" onclick="resetForm('${key}')">Novo registro</button></div>`;
+}
+window.resetForm=key=>{
+  successState[key]=false;
+  const p=key+'_';
+  Object.keys(checkState).forEach(k=>{if(k.startsWith(p))delete checkState[k];});
+  Object.keys(ynState).forEach(k=>{if(k.startsWith(k.startsWith(p)))delete ynState[k];});
+  Object.keys(txtState).forEach(k=>{if(k.startsWith(p))delete txtState[k];});
+  Object.keys(selState).forEach(k=>{if(k.startsWith(p))delete selState[k];});
+  Object.keys(photoStores).forEach(k=>{if(k.startsWith(p)||k.startsWith('dano_'+p))delete photoStores[k];});
+  Object.keys(danosState).forEach(k=>{if(k.startsWith(p))delete danosState[k];});
+  eqSelected[key]&&(eqSelected[key]=[]);
+  if(key==='mov'){movItems=[];}
+  if(key==='asbuilt'){asbuiltItems=[];}
+  renderPage();
+};
+
+// ── DANOS LOOP ────────────────────────────────────────────
+function getDanos(eqKey){return danosState[eqKey]||[];}
+window.addDano=eqKey=>{if(!danosState[eqKey])danosState[eqKey]=[];danosState[eqKey].push({desc:'',photoId:`dano_${eqKey}_${Date.now()}`});renderPage();};
+window.removeDano=(eqKey,idx)=>{danosState[eqKey].splice(idx,1);renderPage();};
+window.setDanoDesc=(eqKey,idx,val)=>{if(!danosState[eqKey])danosState[eqKey]=[];danosState[eqKey][idx].desc=val;};
+function collectDanos(eqKey){return getDanos(eqKey).map(d=>({desc:d.desc,photos:(photoStores[d.photoId]||[]).map(p=>p.data)}));}
+function danosSection(eqKey){
+  const danos=getDanos(eqKey);
+  const items=danos.map((d,i)=>`<div class="dano-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span class="dano-title">⚠️ Dano ${i+1}</span>
+      <button style="background:none;border:none;color:#E74C3C;font-size:18px;cursor:pointer" onclick="removeDano('${eqKey}',${i})">✕</button>
+    </div>
+    <div class="field"><label>Descrição do dano</label><textarea rows="2" placeholder="Descreva o dano encontrado..." oninput="setDanoDesc('${eqKey}',${i},this.value)">${d.desc||''}</textarea></div>
+    ${photoSection(d.photoId,'Foto do dano','',true)}
+  </div>`).join('');
+  return`<div class="section-title">Danos Verificados</div>${items}<button class="btn-add" onclick="addDano('${eqKey}')">+ Adicionar dano verificado</button>`;
+}
+
+// ── SAVE ──────────────────────────────────────────────────
+function collectPhotos(keys){const r={};keys.forEach(k=>{const p=getPhotos(k);if(p.length)r[k]=p.map(x=>x.data);});return r;}
+async function saveDoc(data,photoKeys){
+  saving=true;renderPage();
+  try{
+    const photos=collectPhotos(photoKeys);
+    await addDoc(col,{...data,photos,gps:gpsCoords||null,timestamp:Date.now(),data:new Date().toLocaleString('pt-BR'),createdBy:currentUser?.uid||'anon',createdByEmail:currentUser?.email||'tecnico'});
+    saving=false;return true;
+  }catch(e){
+    console.error(e);
+    if(!navigator.onLine){
+      alert('Sem internet. Conecte-se e tente novamente.');
+    } else if(e.message&&e.message.includes('exceeds')){
+      alert('Muitas fotos. Tente com menos fotos por registro.');
+    } else {
+      alert('Erro ao salvar: '+e.message);
+    }
+    saving=false;renderPage();return false;
+  }
+}
+window.deleteRegistro=async id=>{
+  if(!isAdmin){alert('Apenas o engenheiro pode excluir registros.');return;}
+  if(!confirm('Excluir este registro permanentemente?'))return;
+  try{await deleteDoc(doc(db,'registros',id));renderPainel();}
+  catch(e){alert('Erro ao excluir: '+e.message);}
+};
+
+// ── NAVIGATION ────────────────────────────────────────────
+window.showMain=tab=>{
+  mainTab=tab;
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['home','checklist','mov','asbuilt','final','painel'][i]===tab));
+  const subBar=$('submenu-bar');
+  if(tab==='checklist'){
+    subBar.style.display='block';
+    $('submenu').innerHTML=`
+      <button class="subtab${subTab==='rec'?' active':''}" onclick="showSub('rec')">📦 Recebimento</button>
+      <button class="subtab${subTab==='ent'?' active':''}" onclick="showSub('ent')">🤝 Entrega</button>
+      <button class="subtab${subTab==='lib'?' active':''}" onclick="showSub('lib')">⚡ Liberação</button>`;
+  }else{subBar.style.display='none';}
+  renderPage();
+};
+window.showSub=tab=>{
+  subTab=tab;
+  document.querySelectorAll('.subtab').forEach(el=>{el.classList.toggle('active',el.textContent.includes({rec:'Recebimento',ent:'Entrega',lib:'Liberação'}[tab]));});
+  renderPage();
+};
+
+function renderPage(){
+  const c=$('main-content');if(!c)return;
+  let html='';
+  if(mainTab==='home')html=renderHome();
+  else if(mainTab==='checklist'){
+    if(subTab==='rec')html=renderRec();
+    else if(subTab==='ent')html=renderEnt();
+    else if(subTab==='lib')html=renderLib();
+  }
+  else if(mainTab==='mov')html=renderMov();
+  else if(mainTab==='asbuilt')html=renderAsBuilt();
+  else if(mainTab==='final')html=renderFinal();
+  else if(mainTab==='painel'){renderPainel();return;}
+  c.innerHTML=html;
+  refreshAllThumbs();
+}
+
+// ── HOME ──────────────────────────────────────────────────
+function renderHome(){
+  return`<h2 class="page-title">Bem-vindo!</h2>
+  <p class="page-sub">EDP-ES — DEPA | Obras de Alta Tensão</p>
+  ${gpsBox()}
+  <div class="section-title">Selecione o módulo</div>
+  <div class="menu-grid">
+    <div class="menu-card" onclick="showMain('checklist')">
+      <div class="mc-icon">📋</div>
+      <div class="mc-title">Checklist Inicial</div>
+      <div class="mc-sub">Recebimento · Entrega · Liberação</div>
+    </div>
+    <div class="menu-card" onclick="showMain('mov')">
+      <div class="mc-icon">🚛</div>
+      <div class="mc-title">Movimentação</div>
+      <div class="mc-sub">Equipamentos movimentados</div>
+    </div>
+    <div class="menu-card" onclick="showMain('asbuilt')">
+      <div class="mc-icon">📐</div>
+      <div class="mc-title">As Built</div>
+      <div class="mc-sub">Registro de alterações de projeto</div>
+    </div>
+    <div class="menu-card" onclick="showMain('final')">
+      <div class="mc-icon">✅</div>
+      <div class="mc-title">Final de Obra</div>
+      <div class="mc-sub">Checklist geral de encerramento</div>
+    </div>
+    <div class="menu-card" onclick="showMain('painel')" style="grid-column:span 2">
+      <div class="mc-icon">📊</div>
+      <div class="mc-title">Painel de Registros</div>
+      <div class="mc-sub">Histórico completo na nuvem</div>
+    </div>
+  </div>`;
+}
+
+// ── RECEBIMENTO ───────────────────────────────────────────
+const RECEB_EQS=["Transformador","Disjuntor / Religador","Seccionadora","Outro"];
+function renderRec(){
+  if(successState.rec)return sucesso('rec','📦','Recebimento registrado!','#2ECC71');
+  const sel=eqSelected.rec;let accs='';
+  if(sel.includes('Transformador'))accs+=accordion('rec_trafo','📦 Transformador',`
+    ${field('rec_trafo_serie','Nº de série / TAG','Ex: 2024-TR-001')}
+    ${itemCheck('rec_trafo_insp','Inspeção geral — Transformador sem danos visíveis, arranhados. Se com bucha instalada, está preservada? Veio com proteções adequadas de transporte?')}
+    ${itemCheck('rec_trafo_doc','Documentação técnica recebida (Manual, Databook, NF\'s, relatórios adicionais de fábrica)?')}
+    ${itemCheck('rec_trafo_placas','Placas de identificação conforme projeto — dados e instalação corretos?')}
+    ${itemCheck('rec_trafo_acess','Acessórios conferidos conforme lista de materiais (Radiadores, buchas, relé de gás, etc.)?')}
+    ${itemCheck('rec_trafo_vaz','Equipamento livre de vazamentos de óleo?')}
+    ${yesNo('rec_trafo_press','Transformador está pressurizado corretamente e com nível adequado de pressão?')}
+    ${photoSection('rec_trafo_press_foto','Foto do manômetro / pressurização','Registre o manômetro indicando a pressão.')}
+    ${yesNo('rec_trafo_impacto','Registrador de impacto presente?')}
+    ${photoSection('rec_trafo_impacto_foto','Foto do registrador de impacto')}
+    <div class="section-title">Registro Fotográfico Final</div>
+    ${photoSection('rec_trafo_geral_foto','Fotos gerais do equipamento')}
+    ${photoSection('rec_trafo_carreta','Transformador na carreta')}
+    ${photoSection('rec_trafo_base','Transformador na base')}
+    ${photoSection('rec_trafo_acess_foto','Acessórios')}
+    ${danosSection('rec_trafo')}
+  `);
+  if(sel.includes('Disjuntor / Religador'))accs+=accordion('rec_dj','📦 Disjuntor / Religador',`
+    ${field('rec_dj_serie','Nº de série / TAG','Ex: 2024-DJ-001')}
+    ${itemCheck('rec_dj_insp','Inspeção geral — Disjuntor/Religador sem danos visíveis. Porcelanas intactas? Tomada de força ok? Comando ok?')}
+    ${itemCheck('rec_dj_doc','Documentação técnica recebida (Manual, Databook, NF\'s, relatórios adicionais de fábrica)?')}
+    ${itemCheck('rec_dj_placas','Placas de identificação conforme projeto — dados e instalação corretos?')}
+    ${itemCheck('rec_dj_acess','Acessórios conferidos conforme lista de materiais (Relés adicionais, peças sobressalentes, etc.)?')}
+    ${itemCheck('rec_dj_vaz','Equipamento livre de vazamentos e pressurizado corretamente?')}
+    <div class="section-title">Registro Fotográfico Final</div>
+    ${photoSection('rec_dj_geral_foto','Fotos gerais do equipamento')}
+    ${photoSection('rec_dj_carreta','Disjuntor/Religador na carreta')}
+    ${photoSection('rec_dj_desc','Disjuntor/Religador descarregado')}
+    ${photoSection('rec_dj_acess_foto','Acessórios')}
+    ${danosSection('rec_dj')}
+  `);
+  if(sel.includes('Seccionadora'))accs+=accordion('rec_sec','📦 Seccionadora',`
+    ${field('rec_sec_serie','Nº de série / TAG','Ex: 2024-SEC-001')}
+    ${itemCheck('rec_sec_insp','Inspeção geral — Seccionadora sem danos visíveis, quebrados. Lâminas e isoladores embalados corretamente?')}
+    ${itemCheck('rec_sec_placas','Placas de identificação conforme projeto — dados e instalação corretos?')}
+    ${itemCheck('rec_sec_acess','Acessórios conferidos conforme lista de materiais (Comando quando aplicável, tirante de montagem, etc.)?')}
+    <div class="section-title">Registro Fotográfico Final</div>
+    ${photoSection('rec_sec_geral_foto','Fotos gerais do equipamento')}
+    ${photoSection('rec_sec_carreta','Seccionadora na carreta')}
+    ${photoSection('rec_sec_desc','Seccionadora descarregada')}
+    ${photoSection('rec_sec_acess_foto','Acessórios')}
+    ${danosSection('rec_sec')}
+  `);
+  if(sel.includes('Outro'))accs+=accordion('rec_outro','📦 Outro equipamento',`
+    ${field('rec_outro_nome','Nome do equipamento','Descreva o equipamento')}
+    ${field('rec_outro_serie','Nº de série / TAG','Ex: 2024-XX-001')}
+    ${itemCheck('rec_outro_int','Integridade física: sem trincas, quebrados ou arranhados?')}
+    ${itemCheck('rec_outro_mont','Embalagem/montagem correta e sem pendências aparentes?')}
+    ${textarea('rec_outro_obs','Observações','Descreva o que foi inspecionado...')}
+    ${photoSection('rec_outro_geral_foto','Fotos gerais do equipamento')}
+    ${danosSection('rec_outro')}
+  `);
+  return`<h2 class="page-title">Recebimento do Equipamento</h2><p class="page-sub">Inspeção realizada pela Obra ao receber do fabricante.</p>
+    <div class="section-title">Identificação</div>${gpsBox()}
+    ${field('rec_nome','Seu nome','Ex: João Silva')}${field('rec_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+    <div class="section-title">Equipamentos recebidos</div>${eqSelector('rec',RECEB_EQS)}${accs}
+    <button class="btn-main ${saving?'muted':'accent'}" onclick="saveRec()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Salvar Recebimento'}</button>`;
+}
+
+// ── ENTREGA ───────────────────────────────────────────────
+const ENTREGA_EQS=["Transformador","Disjuntor / Religador","Seccionadora","TC / TP","Banco Capacitor","Outro"];
+function renderEnt(){
+  if(successState.ent)return sucesso('ent','🤝','Entrega registrada!','#2ECC71');
+  const sel=eqSelected.ent;let accs='';
+  if(sel.includes('Transformador'))accs+=accordion('ent_trafo','🤝 Transformador',`
+    ${field('ent_trafo_serie','Nº de série / TAG','Ex: 2024-TR-001')}
+    ${field('ent_trafo_tempo','Duração prevista do comissionamento pela Manutenção','Ex: 2 dias, 8 horas...',true)}
+    ${itemCheck('ent_trafo_alim','Alimentação CA/CC adequada?')}${itemCheck('ent_trafo_vf','VF funcionando corretamente, com rotação correta?')}
+    ${itemCheck('ent_trafo_oleo','Nível de óleo do transformador correto?')}${itemCheck('ent_trafo_buchas','Nível de óleo das buchas condensivas correto?')}
+    ${itemCheck('ent_trafo_comut_oleo','Nível de óleo do comutador correto?')}${itemCheck('ent_trafo_painel','Painel Trafo e Comutador: fiação e fixação corretos?')}
+    ${itemCheck('ent_trafo_vaz','Parte superior do trafo, radiadores e buchas livres de vazamento de óleo?')}${itemCheck('ent_trafo_comut','Comutador funcionando? (Acionar para cima e para baixo)')}
+    ${itemCheck('ent_trafo_geral','Inspeção geral — Base, aterramentos e conduítes de passagens ok?')}
+    ${textarea('ent_trafo_obs','Observações gerais','Registre observações relevantes...')}
+    ${photoSection('ent_trafo_foto','Registro fotográfico')}
+  `);
+  if(sel.includes('Disjuntor / Religador'))accs+=accordion('ent_dj','🤝 Disjuntor / Religador',`
+    ${field('ent_dj_serie','Nº de série / TAG','Ex: 2024-DJ-001')}
+    ${field('ent_dj_tempo','Duração prevista do comissionamento pela Manutenção','Ex: 1 dia, 4 horas...',true)}
+    ${itemCheck('ent_dj_alim','Alimentação CA/CC adequada?')}${itemCheck('ent_dj_nivel','Nível de SF6 / óleo / câmera de vácuo correto?')}
+    ${itemCheck('ent_dj_int','Integridade física: sem trincas, quebrados ou arranhados?')}${itemCheck('ent_dj_acion','Mecanismo de acionamento verificado e ok?')}
+    ${itemCheck('ent_dj_geral','Inspeção geral — Base, aterramentos e conduítes de passagens ok?')}
+    ${textarea('ent_dj_obs','Observações gerais','Registre observações relevantes...')}${photoSection('ent_dj_foto','Registro fotográfico')}
+  `);
+  if(sel.includes('Seccionadora'))accs+=accordion('ent_sec','🤝 Seccionadora',`
+    ${field('ent_sec_serie','Nº de série / TAG','Ex: 2024-SEC-001')}
+    ${field('ent_sec_tempo','Duração prevista do comissionamento pela Manutenção','Ex: 4 horas...',true)}
+    ${itemCheck('ent_sec_alim','Alimentação CA/CC adequada?')}${itemCheck('ent_sec_int','Integridade física: sem trincas, quebrados ou arranhados?')}
+    ${itemCheck('ent_sec_mec','Mecanismo de operação (Abertura/Fechamento) verificado e ok?')}${itemCheck('ent_sec_lam','Lâminas e contatos sem danos?')}
+    ${itemCheck('ent_sec_geral','Inspeção geral — Base, aterramentos e conduítes de passagens ok?')}
+    ${textarea('ent_sec_obs','Observações gerais','Registre observações relevantes...')}${photoSection('ent_sec_foto','Registro fotográfico')}
+  `);
+  if(sel.includes('TC / TP'))accs+=accordion('ent_tctp','🤝 TC / TP',`
+    ${field('ent_tctp_serie','Nº de série / TAG','Ex: 2024-TC-001')}
+    ${field('ent_tctp_tempo','Duração prevista do comissionamento pela Manutenção','Ex: 2 horas...',true)}
+    ${itemCheck('ent_tctp_mont','Montagem correta (fixação e alinhamento)?')}${itemCheck('ent_tctp_int','Integridade física: sem trincas, quebrados ou arranhados?')}
+    ${itemCheck('ent_tctp_term','Terminais identificados e íntegros?')}${itemCheck('ent_tctp_geral','Inspeção geral — Base, aterramentos e conduítes de passagens ok?')}
+    ${textarea('ent_tctp_obs','Observações gerais','Registre observações relevantes...')}${photoSection('ent_tctp_foto','Registro fotográfico')}
+  `);
+  if(sel.includes('Banco Capacitor'))accs+=accordion('ent_bc','🤝 Banco Capacitor',`
+    ${field('ent_bc_serie','Nº de série / TAG','Ex: 2024-BC-001')}
+    ${field('ent_bc_tempo','Duração prevista do comissionamento pela Manutenção','Ex: 1 dia...',true)}
+    ${itemCheck('ent_bc_civil','Área civil está conforme projeto (Bases Banco e TC, Cerca do Banco, Portão)?')}
+    ${itemCheck('ent_bc_taquimetro','Foi utilizado taquímetro, conforme fabricante, para o fechamento das conexões?')}
+    ${itemCheck('ent_bc_elos','Os elos fusíveis estão conforme especificado em projeto?')}
+    ${itemCheck('ent_bc_tcneutro','O TC de neutro está conforme projeto (Instalação, Potência)?')}
+    ${itemCheck('ent_bc_surto','O dispositivo de surto foi instalado no TC e está conforme projeto?')}
+    ${itemCheck('ent_bc_balanceamento','O balanceamento do banco foi realizado através de medição com capacímetro e o resultado foi satisfatório (resultados dos capacitores individuais e em grupo dentro da variação aceitável)?')}
+    ${textarea('ent_bc_obs','Observações gerais','Registre observações relevantes...')}
+    ${photoSection('ent_bc_foto','Registro fotográfico')}
+  `);
+  if(sel.includes('Outro'))accs+=accordion('ent_outro','🤝 Outro equipamento',`
+    ${field('ent_outro_nome','Nome do equipamento','Descreva o equipamento')}
+    ${field('ent_outro_serie','Nº de série / TAG','Ex: 2024-XX-001')}
+    ${field('ent_outro_tempo','Duração prevista do comissionamento pela Manutenção','Ex: a combinar...',true)}
+    ${itemCheck('ent_outro_int','Integridade física: sem trincas, quebrados ou arranhados?')}${itemCheck('ent_outro_mont','Montagem correta e sem pendências aparentes?')}
+    ${textarea('ent_outro_obs','Observações','Descreva o que foi inspecionado...')}${photoSection('ent_outro_foto','Fotos')}
+  `);
+  return`<h2 class="page-title">Entrega Obra → Manutenção</h2><p class="page-sub">Inspeção conjunta. Selecione os equipamentos e preencha cada um.</p>
+    <div class="section-title">Responsáveis</div>${gpsBox()}
+    ${field('ent_nome_obra','Nome — Obra','Engenheiro / técnico de obra')}${field('ent_nome_manut','Nome — Manutenção AT','Técnico / engenheiro de manutenção')}${field('ent_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+    <div class="section-title">Equipamentos inspecionados</div>${eqSelector('ent',ENTREGA_EQS)}${accs}
+    <button class="btn-main ${saving?'muted':'accent'}" onclick="saveEnt()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Confirmar Entrega'}</button>`;
+}
+
+// ── LIBERAÇÃO ─────────────────────────────────────────────
+const LIBER_EQS=["Transformador","Disjuntor / Religador","Seccionadora","TC / TP","Banco Capacitor","Outro"];
+function renderLib(){
+  if(successState.lib){const a=getYN('lib_apto');return sucesso('lib',a==='Sim'?'⚡':'🔴',a==='Sim'?'Liberado para energização!':'Pendências identificadas',a==='Sim'?'#2ECC71':'#E74C3C');}
+  const ensaiosOk=getYN('lib_ensaios'),funcOk=getYN('lib_func'),releOk=getYN('lib_rele'),apto=getYN('lib_apto');
+  return`<h2 class="page-title">Liberação para Energização</h2><p class="page-sub">Emitido pela Manutenção AT após ensaios elétricos.</p>
+    <div class="section-title">Identificação</div>${gpsBox()}
+    ${field('lib_nome','Responsável Manutenção AT','Nome do técnico / engenheiro')}${field('lib_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+    ${selectField('lib_eq','Equipamento',LIBER_EQS,true)}${field('lib_serie','Nº de série / TAG','Ex: 2024-TR-001')}
+    <div class="section-title">Ensaios Elétricos</div>
+    ${yesNo('lib_ensaios','Todos os ensaios elétricos realizados estão satisfatórios?')}
+    ${ensaiosOk==='Não'?`<div class="error-box">${field('lib_ensaio_ruim','Qual ensaio não está satisfatório?','Nome do ensaio...')}${textarea('lib_ensaio_obs','','Descreva o problema encontrado...')}</div>`:''}
+    <div class="section-title">Ensaio Funcional</div>
+    ${yesNo('lib_func','Ensaio funcional de acionamento realizado e satisfatório?')}
+    ${funcOk==='Não'?`<div class="error-box">${textarea('lib_func_obs','','Descreva o problema encontrado...')}</div>`:''}
+    <div class="section-title">Relés / Automação & Controle</div>
+    ${yesNo('lib_rele','Confirmado com a equipe de A&C que todos os ensaios, sinalização e proteção estão satisfatórios?')}
+    ${releOk==='Não'?`<div class="error-box">${field('lib_rele_ruim','O que está pendente?','Descreva o item pendente...')}${textarea('lib_rele_obs','','Detalhes adicionais...')}</div>`:''}
+    <div class="section-title">Registro Fotográfico</div>${photoSection('lib_foto','Fotos dos ensaios / equipamento')}
+    <div class="section-title">Parecer Final</div>
+    ${textarea('lib_parecer','Observações gerais (opcional)','Registre observações relevantes dos ensaios...',4)}
+    <label style="display:block;color:#7A92AE;font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Equipamento apto para energização?</label>
+    <div class="apto-btns">
+      <button class="apto-btn${apto==='Sim'?' sim':''}" onclick="setYN('lib_apto','Sim');renderPage()">✅ Apto</button>
+      <button class="apto-btn${apto==='Não'?' nao':''}" onclick="setYN('lib_apto','Não');renderPage()">🔴 Pendências</button>
+    </div>
+    <button class="btn-main ${saving?'muted':apto==='Sim'?'green':apto==='Não'?'red':'accent'}" onclick="saveLib()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Registrar Liberação'}</button>`;
+}
+
+// ── MOVIMENTAÇÃO ──────────────────────────────────────────
+function renderMov(){
+  if(successState.mov)return sucesso('mov','🚛','Movimentação registrada!','#3B9EE8');
+  const items=movItems.map((item,idx)=>{
+    const tipo=item.tipo||'';
+    const showInst=tipo==='Substituição'||tipo==='Instalação';
+    const showDes=tipo==='Substituição'||tipo==='Desativação';
+    const showReal=tipo==='Realocação';
+    const showAqui=tipo==='Aquisição';
+    const showEmp=tipo==='Empréstimo';
+    return`<div class="mov-box">
+      <div class="mov-header">
+        <span class="mov-title">Equipamento ${idx+1}</span>
+        <button style="background:none;border:none;color:#E74C3C;font-size:18px;cursor:pointer" onclick="removeMov(${idx})">✕</button>
+      </div>
+      <div class="field"><label>Qual equipamento?</label><input value="${(item.equipamento||'').replace(/"/g,'&quot;')}" placeholder="Ex: TR, DJ, RL, Seccionadora..." oninput="setMovField(${idx},'equipamento',this.value)"/></div>
+      <div class="field"><label>Tipo de movimentação <span style="color:#E74C3C">*</span></label>
+        <select onchange="setMovTipo(${idx},this.value)">
+          <option value="">Selecione...</option>
+          ${['Substituição','Instalação','Desativação','Realocação','Aquisição','Empréstimo'].map(o=>`<option value="${o}"${tipo===o?' selected':''}>${o}</option>`).join('')}
+        </select></div>
+      <div class="field"><label>Tipo de local <span style="color:#E74C3C">*</span></label>
+        <select onchange="setMovField(${idx},'local',this.value)">
+          <option value="">Selecione...</option>
+          ${['Subestação','Linhas'].map(o=>`<option value="${o}"${(item.local||'')===o?' selected':''}>${o}</option>`).join('')}
+        </select></div>
+      <div class="field"><label>Fase <span style="color:#E74C3C">*</span></label>
+        <select onchange="setMovField(${idx},'fase',this.value)">
+          <option value="">Selecione...</option>
+          ${['Vermelha','Azul','Branco','Trifásico','Neutro'].map(o=>`<option value="${o}"${(item.fase||'')===o?' selected':''}>${o}</option>`).join('')}
+        </select></div>
+      <div class="field"><label>Número operativo / Bay</label><input value="${(item.bay||'').replace(/"/g,'&quot;')}" placeholder="Ex: Bay 01 / TR-001" oninput="setMovField(${idx},'bay',this.value)"/></div>
+
+      ${showInst?`<div style="background:#0E3320;border:1px solid #2ECC71;border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="color:#2ECC71;font-size:12px;font-weight:700;margin-bottom:10px">✅ Equipamento Instalado</div>
+        <div class="field"><label>Patrimônio instalado</label><input value="${(item.patrimonioInst||'').replace(/"/g,'&quot;')}" placeholder="Nº do patrimônio" oninput="setMovField(${idx},'patrimonioInst',this.value)"/></div>
+        <div class="field"><label>Tipo de instalação <span style="color:#E74C3C">*</span></label>
+          <select onchange="setMovField(${idx},'tipoInst',this.value)">
+            <option value="">Selecione...</option>
+            ${['Energizado','Reserva quente','Reserva fria'].map(o=>`<option value="${o}"${(item.tipoInst||'')===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>
+        ${photoSection(`mov_${idx}_placa_inst`,'Foto da placa do equipamento instalado (GEDON + Fabricante)','Verificar se os dados estão legíveis na foto',true,2)}
+        ${photoSection(`mov_${idx}_eq_inst`,'Foto do equipamento instalado','Verificar se os dados estão legíveis na foto',true,1)}
+      </div>`:''}
+
+      ${showDes?`<div style="background:#3A1010;border:1px solid #E74C3C;border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="color:#E74C3C;font-size:12px;font-weight:700;margin-bottom:10px">🔴 Equipamento Desativado</div>
+        <div class="field"><label>Patrimônio retirado</label><input value="${(item.patrimonioDes||'').replace(/"/g,'&quot;')}" placeholder="Nº do patrimônio" oninput="setMovField(${idx},'patrimonioDes',this.value)"/></div>
+        <div class="field"><label>Local de destino após a retirada</label><input value="${(item.destino||'').replace(/"/g,'&quot;')}" placeholder="Ex: Almoxarifado, Fábrica..." oninput="setMovField(${idx},'destino',this.value)"/></div>
+        <div class="field"><label>Status da retirada <span style="color:#E74C3C">*</span></label>
+          <select onchange="setMovField(${idx},'statusRet',this.value)">
+            <option value="">Selecione...</option>
+            ${['Enviar para reforma','Enviar para fábrica (garantia)','Sucata completo (Explosão ou obsoleto)','Sucata com peças retiradas','Reserva fria'].map(o=>`<option value="${o}"${(item.statusRet||'')===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>
+        ${photoSection(`mov_${idx}_placa_des`,'Foto da placa do equipamento desativado (GEDON + Fabricante)','Verificar se os dados estão legíveis na foto',true,2)}
+        ${photoSection(`mov_${idx}_eq_des`,'Foto do equipamento retirado','Verificar se os dados estão legíveis na foto',true,1)}
+      </div>`:''}
+
+      ${showReal?`<div style="background:#0D2640;border:1px solid #3B9EE8;border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="color:#3B9EE8;font-size:12px;font-weight:700;margin-bottom:10px">🔄 Equipamento Realocado</div>
+        <div class="field"><label>Patrimônio realocado</label><input value="${(item.patrimonioReal||'').replace(/"/g,'&quot;')}" placeholder="Nº do patrimônio" oninput="setMovField(${idx},'patrimonioReal',this.value)"/></div>
+        <div class="field"><label>Local retirado</label><input value="${(item.localRet||'').replace(/"/g,'&quot;')}" placeholder="Ex: SE Cachoeiro" oninput="setMovField(${idx},'localRet',this.value)"/></div>
+        <div class="field"><label>Fase retirada</label>
+          <select onchange="setMovField(${idx},'faseRet',this.value)">
+            <option value="">Selecione...</option>
+            ${['Vermelho','Azul','Branco','Trifásico','Neutro'].map(o=>`<option value="${o}"${(item.faseRet||'')===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>
+        <div class="field"><label>Local destino</label><input value="${(item.localDest||'').replace(/"/g,'&quot;')}" placeholder="Ex: SE Nova Venécia" oninput="setMovField(${idx},'localDest',this.value)"/></div>
+        <div class="field"><label>Fase destinada</label>
+          <select onchange="setMovField(${idx},'faseDest',this.value)">
+            <option value="">Selecione...</option>
+            ${['Vermelho','Azul','Branco','Trifásico','Neutro'].map(o=>`<option value="${o}"${(item.faseDest||'')===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>
+        ${photoSection(`mov_${idx}_placa_real`,'Foto da placa do equipamento realocado (GEDON + Fabricante)','Verificar se os dados estão legíveis na foto',true,2)}
+        ${photoSection(`mov_${idx}_eq_real`,'Foto do equipamento realocado','Verificar se os dados estão legíveis na foto',true,1)}
+      </div>`:''}
+
+      ${showAqui?`<div style="background:#2D1B69;border:1px solid #A78BFA;border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="color:#A78BFA;font-size:12px;font-weight:700;margin-bottom:10px">🛒 Equipamento Adquirido</div>
+        <div class="field"><label>Patrimônio adquirido</label><input value="${(item.patrimonioAqui||'').replace(/"/g,'&quot;')}" placeholder="Nº do patrimônio" oninput="setMovField(${idx},'patrimonioAqui',this.value)"/></div>
+        <div class="field"><label>Base de aquisição <span style="color:#E74C3C">*</span></label>
+          <select onchange="setMovField(${idx},'baseAqui',this.value)">
+            <option value="">Selecione...</option>
+            ${['Alto Lage','Cachoeiro','Carapina','João Neiva','Nova Venecia','Venda Nova'].map(o=>`<option value="${o}"${(item.baseAqui||'')===o?' selected':''}>${o}</option>`).join('')}
+          </select></div>
+        ${photoSection(`mov_${idx}_placa_aqui`,'Foto da placa do equipamento adquirido (GEDON + Fabricante)','Verificar se os dados estão legíveis na foto',true,2)}
+        ${photoSection(`mov_${idx}_eq_aqui`,'Foto do equipamento adquirido','Verificar se os dados estão legíveis na foto',true,1)}
+      </div>`:''}
+
+      ${showEmp?`<div style="background:#3A2E10;border:1px solid #F5A623;border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="color:#F5A623;font-size:12px;font-weight:700;margin-bottom:10px">🤝 Equipamento Emprestado</div>
+        <div class="field"><label>Patrimônio emprestado</label><input value="${(item.patrimonioEmp||'').replace(/"/g,'&quot;')}" placeholder="Nº do patrimônio" oninput="setMovField(${idx},'patrimonioEmp',this.value)"/></div>
+        <div class="field"><label>Base ou área de empréstimo</label><input value="${(item.baseEmp||'').replace(/"/g,'&quot;')}" placeholder="Ex: Base Cachoeiro / Área Norte" oninput="setMovField(${idx},'baseEmp',this.value)"/></div>
+        ${photoSection(`mov_${idx}_placa_emp`,'Foto da placa do equipamento emprestado (GEDON + Fabricante)','Verificar se os dados estão legíveis na foto',true,2)}
+        ${photoSection(`mov_${idx}_eq_emp`,'Foto do equipamento emprestado','Verificar se os dados estão legíveis na foto',true,1)}
+      </div>`:''}
+    </div>`;
+  }).join('');
+
+  return`<h2 class="page-title">Movimentação de Equipamentos</h2><p class="page-sub">Registre cada equipamento movimentado nesta obra.</p>
+    <div class="section-title">Identificação</div>${gpsBox()}
+    ${field('mov_nome','Seu nome','Ex: João Silva')}${field('mov_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+    <div class="section-title">Equipamentos movimentados</div>
+    ${items}
+    <button class="btn-add" onclick="addMov()">+ Adicionar equipamento movimentado</button>
+    ${movItems.length>0?`<button class="btn-main ${saving?'muted':'accent'}" onclick="saveMov()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Salvar Movimentação'}</button>`:''}`;
+}
+
+window.addMov=()=>{movItems.push({equipamento:'',tipo:'',local:'',fase:'',bay:''});renderPage();};
+window.removeMov=idx=>{movItems.splice(idx,1);renderPage();};
+window.setMovField=(idx,key,val)=>{movItems[idx][key]=val;};
+window.setMovTipo=(idx,val)=>{movItems[idx].tipo=val;renderPage();};
+
+// ── AS BUILT ──────────────────────────────────────────────
+function renderAsBuilt(){
+  if(successState.asbuilt)return sucesso('asbuilt','📐','As Built registrado!','#A78BFA');
+  return`<h2 class="page-title">As Built</h2><p class="page-sub">Registro de alterações em relação ao projeto original.</p>
+    <div class="section-title">Identificação</div>${gpsBox()}
+    ${field('ab_nome','Seu nome','Ex: João Silva')}${field('ab_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+    <div class="section-title">Registro da Alteração</div>
+    ${textarea('ab_desc','1. Descreva detalhadamente o que foi feito *','Ex: Cabo conectado no borne A ao invés do B',4)}
+    ${textarea('ab_motivo','2. Motivo *','Ex: Falta de espaço, borne ocupado',3)}
+    ${textarea('ab_info','3. Informações adicionais','Ex: Borne relatado no projeto estava ocupado com o cabo de identificação xxx...',3)}
+    ${yesNo('ab_projetos','4. Foi as-builtado todos os projetos afetados? (Ex.: Se foi alteração de cabo, foi alterado na lista de cabos também?)')}
+    <div class="section-title">Registro Fotográfico</div>
+    ${photoSection('ab_painel','5. Registro fotográfico do Painel','',true,1)}
+    ${photoSection('ab_alteracao','6. Registro fotográfico da Alteração','',true,1)}
+    <div class="section-title">Arquivo e Diretório</div>
+    <div style="background:#1C2D45;border:1px solid #2A3F5F;border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="color:#7A92AE;font-size:13px;line-height:1.6;margin-bottom:12px">
+        <b style="color:#F5A623">7. Instrução:</b> Por favor, finalizar o arquivo e informar em qual pasta estão mais fotos desta obra. Tirar foto do equipamento, foto de todos os painéis (Dentro / Lados / Fechado / Aberto) envolvidos nessa obra.<br/>
+        <span style="color:#E74C3C;font-size:11px">⚠️ Não carregar essas fotos aqui, apenas informar o diretório abaixo.</span>
+      </div>
+      ${textarea('ab_diretorio','Diretório das fotos adicionais *','Ex: \\\\Servidor\\Obras\\SE-Cachoeiro\\2024\\Fotos',2)}
+    </div>
+    <button class="btn-main ${saving?'muted':'accent'}" style="background:#A78BFA" onclick="saveAsBuilt()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Salvar As Built'}</button>`;
+}
+
+// ── FINAL DE OBRA ─────────────────────────────────────────
+function renderFinal(){
+  if(successState.final)return sucesso('final','✅','Checklist Final registrado!','#2ECC71');
+  const apto=getYN('fin_apto');
+  return`<h2 class="page-title">Checklist Final de Obra</h2><p class="page-sub">Verificação geral de encerramento da obra.</p>
+    <div class="section-title">Identificação</div>${gpsBox()}
+    ${field('fin_nome','Seu nome','Ex: João Silva')}${field('fin_sub','Subestação / Obra','Ex: SE Cachoeiro 138kV')}
+
+    <div class="section-title">Equipamentos e Instalações</div>
+    ${itemCheck('fin_eq_proj','Todos os equipamentos estão instalados e conforme projeto (especificação, localização, fixação)?')}
+    ${itemCheck('fin_eq_placa','Todos os equipamentos possuem plaquetas de identificação conforme projeto?')}
+    ${itemCheck('fin_eq_aterr','Aterramentos de todos os equipamentos realizados conforme projeto?')}
+    ${itemCheck('fin_eq_cab','Cabeamentos e conexões elétricos conferidos e conforme projeto?')}
+    ${itemCheck('fin_eq_cond','Conduites, eletrodutos e bandejas instalados conforme projeto?')}
+    ${itemCheck('fin_eq_limpeza','Área do pátio e equipamentos limpos e sem resíduos de obra?')}
+
+    <div class="section-title">Sala de Comando / Casa de Controle</div>
+    ${itemCheck('fin_cc_painel','Painéis instalados, organizados e conforme projeto?')}
+    ${itemCheck('fin_cc_fiacao','Fiação e bornes identificados e organizados corretamente?')}
+    ${itemCheck('fin_cc_rele','Relés e proteções instalados e parametrizados conforme projeto?')}
+    ${itemCheck('fin_cc_alim','Alimentação CA/CC verificada e funcionando corretamente?')}
+    ${itemCheck('fin_cc_alarmes','Alarmes e sinalizações testados e funcionando?')}
+    ${itemCheck('fin_cc_limpeza','Sala de comando limpa, organizada e sem resíduos de obra?')}
+    ${itemCheck('fin_cc_acesso','Acesso à sala de controle adequado e seguro?')}
+
+    <div class="section-title">Obra Civil</div>
+    ${itemCheck('fin_cv_bases','Bases e fundações conforme projeto e sem fissuras?')}
+    ${itemCheck('fin_cv_dreno','Sistema de drenagem instalado e funcionando?')}
+    ${itemCheck('fin_cv_cerca','Cercamento, portões e acessos conforme projeto?')}
+    ${itemCheck('fin_cv_acabamento','Acabamentos civis concluídos (pintura, revestimentos, calçadas)?')}
+    ${itemCheck('fin_cv_problema','A obra civil ocorreu sem problemas durante a montagem eletromecânica?')}
+
+    <div class="section-title">Montagem Eletromecânica</div>
+    ${itemCheck('fin_em_concluida','Montagem eletromecânica concluída conforme escopo contratado?')}
+    ${itemCheck('fin_em_pendencias','Não há pendências técnicas abertas relacionadas à montagem?')}
+    ${itemCheck('fin_em_doc','Documentação técnica (manuais, relatórios, certificados) entregue?')}
+    ${itemCheck('fin_em_treinamento','Treinamento operacional realizado com a equipe de operação/manutenção?')}
+
+    <div class="section-title">Segurança e Meio Ambiente</div>
+    ${itemCheck('fin_seg_sinalizacao','Sinalização de segurança instalada conforme normas?')}
+    ${itemCheck('fin_seg_epi','EPIs e equipamentos de segurança recolhidos da obra?')}
+    ${itemCheck('fin_seg_residuos','Resíduos de obra destinados corretamente?')}
+
+    <div class="section-title">Registro Fotográfico Obrigatório</div>
+    ${photoSection('fin_patio_1','Foto do pátio 1','',true,1)}
+    ${photoSection('fin_patio_2','Foto do pátio 2','',true,1)}
+    ${photoSection('fin_patio_3','Foto do pátio 3','',true,1)}
+    ${photoSection('fin_cc_1','Foto da casa de comando 1','',true,1)}
+    ${photoSection('fin_cc_2','Foto da casa de comando 2','',true,1)}
+    ${photoSection('fin_cc_3','Foto da casa de comando 3','',true,1)}
+
+    <div class="section-title">Arquivo e Diretório</div>
+    <div style="background:#1C2D45;border:1px solid #2A3F5F;border-radius:10px;padding:14px;margin-bottom:14px">
+      <div style="color:#7A92AE;font-size:13px;line-height:1.6;margin-bottom:12px">
+        <b style="color:#F5A623">Instrução:</b> Por favor, finalizar o arquivo e informar em qual pasta estão mais fotos desta obra. Tirar foto do equipamento, foto de todos os painéis (Dentro / Lados / Fechado / Aberto) envolvidos nessa obra.<br/>
+        <span style="color:#E74C3C;font-size:11px">⚠️ Não carregar essas fotos aqui, apenas informar o diretório abaixo.</span>
+      </div>
+      ${textarea('fin_diretorio','Diretório das fotos adicionais *','Ex: \\\\Servidor\\Obras\\SE-Cachoeiro\\2024\\Fotos',2)}
+    </div>
+
+    <div class="section-title">Parecer Final</div>
+    ${textarea('fin_obs','Observações gerais','Registre observações relevantes sobre o encerramento da obra...',4)}
+    <label style="display:block;color:#7A92AE;font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.8px">Obra concluída e apta para energização?</label>
+    <div class="apto-btns">
+      <button class="apto-btn${apto==='Sim'?' sim':''}" onclick="setYN('fin_apto','Sim');renderPage()">✅ Concluída</button>
+      <button class="apto-btn${apto==='Não'?' nao':''}" onclick="setYN('fin_apto','Não');renderPage()">🔴 Pendências</button>
+    </div>
+    <button class="btn-main ${saving?'muted':'green'}" onclick="saveFinal()" ${saving?'disabled':''}>${saving?'<span class="spinner"></span>Salvando...':'Salvar Checklist Final'}</button>`;
+}
+
+// ── PAINEL ────────────────────────────────────────────────
+window.setPainelFiltro=v=>{painelFiltro=v;renderPainel();};
+function renderPainel(){
+  const c=$('main-content');if(!c)return;
+  const lista=allRegistros.filter(r=>!painelFiltro||
+    r.sub?.toLowerCase().includes(painelFiltro.toLowerCase())||
+    r.nome?.toLowerCase().includes(painelFiltro.toLowerCase())||
+    r.nomeObra?.toLowerCase().includes(painelFiltro.toLowerCase())||
+    (r.selected||[]).join(' ').toLowerCase().includes(painelFiltro.toLowerCase())||
+    r.eq?.toLowerCase().includes(painelFiltro.toLowerCase())||
+    r.tipoLabel?.toLowerCase().includes(painelFiltro.toLowerCase())
+  );
+  const cM={'1_recebimento':'blue','2_entrega':'green','3_liberacao':'red','4_movimentacao':'blue','5_asbuilt':'purple','6_final':'green'};
+  const aBtns=id=>isAdmin?`<button class="btn-sm btn-del" onclick="deleteRegistro('${id}')">🗑 Excluir</button>`:`<button class="btn-sm" style="background:#1C2D45;color:#7A92AE;cursor:default">👁 Ver</button>`;
+  const cards=lista.length===0?`<div class="empty">Nenhum registro encontrado.</div>`:lista.map(r=>`
+    <div class="card">
+      <div class="card-top"><span class="badge ${cM[r.tipo]||'blue'}">${r.tipoLabel}</span><span class="card-date">${r.data||''}</span></div>
+      <div class="card-title">${(r.selected||[r.eq||r.tipoLabel||'']).join(', ')} — ${r.sub||''}</div>
+      <div class="card-sub">${r.tipo==='2_entrega'?`Obra: ${r.nomeObra} · Manutenção: ${r.nomeManut}`:`Responsável: ${r.nome||''}`}</div>
+      ${r.gps?`<div style="color:#2ECC71;font-size:11px;margin-top:4px">📍 ${r.gps.lat}, ${r.gps.lng}</div>`:''}
+      ${r.tipo==='3_liberacao'?`<div style="margin-top:8px"><span class="badge ${r.apto==='Sim'?'green':'red'}">${r.apto==='Sim'?'⚡ Apto para energização':'🔴 Com pendências'}</span></div>`:''}
+      ${r.tipo==='6_final'?`<div style="margin-top:8px"><span class="badge ${r.apto==='Sim'?'green':'red'}">${r.apto==='Sim'?'✅ Obra concluída':'🔴 Com pendências'}</span></div>`:''}
+      <div class="card-actions">${aBtns(r.id)}</div>
+    </div>`).join('');
+  c.innerHTML=`<h2 class="page-title">Painel de Registros</h2>
+    <p class="page-sub">${isAdmin?'Engenheiro — acesso completo ☁️':'Técnico — visualização ☁️'}</p>
+    <div class="panel-count">${allRegistros.length} registro${allRegistros.length!==1?'s':''} na nuvem</div>
+    <input class="search-input" placeholder="Buscar por subestação, tipo, responsável..." value="${painelFiltro}" oninput="setPainelFiltro(this.value)"/>
+    ${cards}`;
+}
+
+// ── SAVE FUNCTIONS ────────────────────────────────────────
+window.saveRec=async()=>{
+  const nome=getTxt('rec_nome'),sub=getTxt('rec_sub'),sel=eqSelected.rec;
+  if(!nome||!sub)return alert('Preencha Nome e Subestação.');
+  if(!sel.length)return alert('Selecione pelo menos um equipamento.');
+  if(sel.includes('Transformador')){
+    if(!getPhotos('rec_trafo_geral_foto').length)return alert('Adicione fotos gerais do Transformador.');
+    if(!getPhotos('rec_trafo_press_foto').length)return alert('Adicione foto da pressurização.');
+    if(!getPhotos('rec_trafo_impacto_foto').length)return alert('Adicione foto do registrador de impacto.');
+    if(!getPhotos('rec_trafo_carreta').length)return alert('Adicione foto na carreta.');
+    if(!getPhotos('rec_trafo_base').length)return alert('Adicione foto na base.');
+    if(!getPhotos('rec_trafo_acess_foto').length)return alert('Adicione foto dos acessórios.');
+  }
+  if(sel.includes('Disjuntor / Religador')){
+    if(!getPhotos('rec_dj_geral_foto').length)return alert('Adicione fotos gerais do DJ/RL.');
+    if(!getPhotos('rec_dj_carreta').length)return alert('Adicione foto na carreta.');
+    if(!getPhotos('rec_dj_desc').length)return alert('Adicione foto descarregado.');
+    if(!getPhotos('rec_dj_acess_foto').length)return alert('Adicione foto dos acessórios.');
+  }
+  if(sel.includes('Seccionadora')){
+    if(!getPhotos('rec_sec_geral_foto').length)return alert('Adicione fotos gerais da Seccionadora.');
+    if(!getPhotos('rec_sec_carreta').length)return alert('Adicione foto na carreta.');
+    if(!getPhotos('rec_sec_desc').length)return alert('Adicione foto descarregada.');
+    if(!getPhotos('rec_sec_acess_foto').length)return alert('Adicione foto dos acessórios.');
+  }
+  if(sel.includes('Outro')&&!getPhotos('rec_outro_geral_foto').length)return alert('Adicione fotos do equipamento.');
+  for(const eqKey of['rec_trafo','rec_dj','rec_sec','rec_outro']){
+    for(const d of getDanos(eqKey)){if(!getPhotos(d.photoId).length)return alert('Adicione foto para todos os danos registrados.');}
+  }
+  const eqData={};
+  if(sel.includes('Transformador'))eqData['Transformador']={serie:getTxt('rec_trafo_serie'),inspecao:getCheck('rec_trafo_insp'),doc:getCheck('rec_trafo_doc'),placas:getCheck('rec_trafo_placas'),acessorios:getCheck('rec_trafo_acess'),vazamento:getCheck('rec_trafo_vaz'),pressao:getYN('rec_trafo_press'),impacto:getYN('rec_trafo_impacto'),danos:collectDanos('rec_trafo')};
+  if(sel.includes('Disjuntor / Religador'))eqData['Disjuntor / Religador']={serie:getTxt('rec_dj_serie'),inspecao:getCheck('rec_dj_insp'),doc:getCheck('rec_dj_doc'),placas:getCheck('rec_dj_placas'),acessorios:getCheck('rec_dj_acess'),vazamento:getCheck('rec_dj_vaz'),danos:collectDanos('rec_dj')};
+  if(sel.includes('Seccionadora'))eqData['Seccionadora']={serie:getTxt('rec_sec_serie'),inspecao:getCheck('rec_sec_insp'),placas:getCheck('rec_sec_placas'),acessorios:getCheck('rec_sec_acess'),danos:collectDanos('rec_sec')};
+  if(sel.includes('Outro'))eqData['Outro']={nome:getTxt('rec_outro_nome'),serie:getTxt('rec_outro_serie'),integridade:getCheck('rec_outro_int'),montagem:getCheck('rec_outro_mont'),obs:getTxt('rec_outro_obs'),danos:collectDanos('rec_outro')};
+  const photoKeys=['rec_trafo_geral_foto','rec_trafo_press_foto','rec_trafo_impacto_foto','rec_trafo_carreta','rec_trafo_base','rec_trafo_acess_foto','rec_dj_geral_foto','rec_dj_carreta','rec_dj_desc','rec_dj_acess_foto','rec_sec_geral_foto','rec_sec_carreta','rec_sec_desc','rec_sec_acess_foto','rec_outro_geral_foto'];
+  const ok=await saveDoc({tipo:'1_recebimento',tipoLabel:'Recebimento',nome,sub,selected:sel,eqData},photoKeys);
+  if(ok){successState.rec=true;renderPage();}
+};
+
+window.saveEnt=async()=>{
+  const nomeObra=getTxt('ent_nome_obra'),nomeManut=getTxt('ent_nome_manut'),sub=getTxt('ent_sub'),sel=eqSelected.ent;
+  if(!nomeObra||!nomeManut||!sub)return alert('Preencha todos os campos de identificação.');
+  if(!sel.length)return alert('Selecione pelo menos um equipamento.');
+  const tempoKeys={'Transformador':'ent_trafo_tempo','Disjuntor / Religador':'ent_dj_tempo','Seccionadora':'ent_sec_tempo','TC / TP':'ent_tctp_tempo','Banco Capacitor':'ent_bc_tempo','Outro':'ent_outro_tempo'};
+  const photoKeyMap={'Transformador':'ent_trafo_foto','Disjuntor / Religador':'ent_dj_foto','Seccionadora':'ent_sec_foto','TC / TP':'ent_tctp_foto','Banco Capacitor':'ent_bc_foto','Outro':'ent_outro_foto'};
+  for(const eq of sel){
+    if(!getTxt(tempoKeys[eq]))return alert(`Informe a duração do comissionamento para: ${eq}`);
+    if(!getPhotos(photoKeyMap[eq]).length)return alert(`Adicione pelo menos uma foto para: ${eq}`);
+  }
+  const eqData={};
+  if(sel.includes('Transformador'))eqData['Transformador']={serie:getTxt('ent_trafo_serie'),tempo:getTxt('ent_trafo_tempo'),alimentacao:getCheck('ent_trafo_alim'),vf:getCheck('ent_trafo_vf'),oleoTrafo:getCheck('ent_trafo_oleo'),oleoBuchas:getCheck('ent_trafo_buchas'),oleoComut:getCheck('ent_trafo_comut_oleo'),painel:getCheck('ent_trafo_painel'),vazamento:getCheck('ent_trafo_vaz'),comutador:getCheck('ent_trafo_comut'),inspecaoGeral:getCheck('ent_trafo_geral'),obs:getTxt('ent_trafo_obs')};
+  if(sel.includes('Disjuntor / Religador'))eqData['Disjuntor / Religador']={serie:getTxt('ent_dj_serie'),tempo:getTxt('ent_dj_tempo'),alimentacao:getCheck('ent_dj_alim'),nivel:getCheck('ent_dj_nivel'),integridade:getCheck('ent_dj_int'),acionamento:getCheck('ent_dj_acion'),inspecaoGeral:getCheck('ent_dj_geral'),obs:getTxt('ent_dj_obs')};
+  if(sel.includes('Seccionadora'))eqData['Seccionadora']={serie:getTxt('ent_sec_serie'),tempo:getTxt('ent_sec_tempo'),alimentacao:getCheck('ent_sec_alim'),integridade:getCheck('ent_sec_int'),mecanismo:getCheck('ent_sec_mec'),laminas:getCheck('ent_sec_lam'),inspecaoGeral:getCheck('ent_sec_geral'),obs:getTxt('ent_sec_obs')};
+  if(sel.includes('TC / TP'))eqData['TC / TP']={serie:getTxt('ent_tctp_serie'),tempo:getTxt('ent_tctp_tempo'),montagem:getCheck('ent_tctp_mont'),integridade:getCheck('ent_tctp_int'),terminais:getCheck('ent_tctp_term'),inspecaoGeral:getCheck('ent_tctp_geral'),obs:getTxt('ent_tctp_obs')};
+  if(sel.includes('Banco Capacitor'))eqData['Banco Capacitor']={serie:getTxt('ent_bc_serie'),tempo:getTxt('ent_bc_tempo'),civil:getCheck('ent_bc_civil'),taquimetro:getCheck('ent_bc_taquimetro'),elos:getCheck('ent_bc_elos'),tcneutro:getCheck('ent_bc_tcneutro'),surto:getCheck('ent_bc_surto'),balanceamento:getCheck('ent_bc_balanceamento'),obs:getTxt('ent_bc_obs')};
+  if(sel.includes('Outro'))eqData['Outro']={nome:getTxt('ent_outro_nome'),serie:getTxt('ent_outro_serie'),tempo:getTxt('ent_outro_tempo'),integridade:getCheck('ent_outro_int'),montagem:getCheck('ent_outro_mont'),obs:getTxt('ent_outro_obs')};
+  const ok=await saveDoc({tipo:'2_entrega',tipoLabel:'Entrega Obra→Manutenção',nomeObra,nomeManut,sub,selected:sel,eqData},['ent_trafo_foto','ent_dj_foto','ent_sec_foto','ent_tctp_foto','ent_bc_foto','ent_outro_foto']);
+  if(ok){successState.ent=true;renderPage();}
+};
+
+window.saveLib=async()=>{
+  const nome=getTxt('lib_nome'),sub=getTxt('lib_sub'),eq=getSel('lib_eq');
+  if(!nome||!sub||!eq)return alert('Preencha Nome, Subestação e Equipamento.');
+  if(!getYN('lib_ensaios')||!getYN('lib_func')||!getYN('lib_rele')||!getYN('lib_apto'))return alert('Responda todas as perguntas obrigatórias.');
+  if(!getPhotos('lib_foto').length)return alert('Adicione pelo menos uma foto.');
+  const ok=await saveDoc({tipo:'3_liberacao',tipoLabel:'Liberação p/ Energização',nome,sub,eq,serie:getTxt('lib_serie'),ensaiosOk:getYN('lib_ensaios'),ensaioRuim:getTxt('lib_ensaio_ruim'),ensaioObs:getTxt('lib_ensaio_obs'),funcionalOk:getYN('lib_func'),funcionalObs:getTxt('lib_func_obs'),releOk:getYN('lib_rele'),releRuim:getTxt('lib_rele_ruim'),releObs:getTxt('lib_rele_obs'),apto:getYN('lib_apto'),parecerFinal:getTxt('lib_parecer')},['lib_foto']);
+  if(ok){successState.lib=true;renderPage();}
+};
+
+window.saveMov=async()=>{
+  const nome=getTxt('mov_nome'),sub=getTxt('mov_sub');
+  if(!nome||!sub)return alert('Preencha Nome e Subestação.');
+  if(!movItems.length)return alert('Adicione pelo menos um equipamento movimentado.');
+  for(let i=0;i<movItems.length;i++){
+    const item=movItems[i];
+    if(!item.tipo)return alert(`Informe o tipo de movimentação do equipamento ${i+1}.`);
+    if(!item.local)return alert(`Informe o tipo de local do equipamento ${i+1}.`);
+    if(!item.fase)return alert(`Informe a fase do equipamento ${i+1}.`);
+    const tipo=item.tipo;
+    if((tipo==='Substituição'||tipo==='Instalação')&&!getPhotos(`mov_${i}_placa_inst`).length)return alert(`Adicione foto da placa do equipamento instalado (item ${i+1}).`);
+    if((tipo==='Substituição'||tipo==='Instalação')&&getPhotos(`mov_${i}_placa_inst`).length<2)return alert(`Adicione pelo menos 2 fotos da placa do equipamento instalado (item ${i+1}).`);
+    if((tipo==='Substituição'||tipo==='Instalação')&&!getPhotos(`mov_${i}_eq_inst`).length)return alert(`Adicione foto do equipamento instalado (item ${i+1}).`);
+    if((tipo==='Substituição'||tipo==='Desativação')&&!getPhotos(`mov_${i}_placa_des`).length)return alert(`Adicione foto da placa do equipamento desativado (item ${i+1}).`);
+    if((tipo==='Substituição'||tipo==='Desativação')&&getPhotos(`mov_${i}_placa_des`).length<2)return alert(`Adicione pelo menos 2 fotos da placa do equipamento desativado (item ${i+1}).`);
+    if((tipo==='Substituição'||tipo==='Desativação')&&!getPhotos(`mov_${i}_eq_des`).length)return alert(`Adicione foto do equipamento retirado (item ${i+1}).`);
+    if(tipo==='Realocação'&&(!getPhotos(`mov_${i}_placa_real`).length||getPhotos(`mov_${i}_placa_real`).length<2))return alert(`Adicione pelo menos 2 fotos da placa do equipamento realocado (item ${i+1}).`);
+    if(tipo==='Realocação'&&!getPhotos(`mov_${i}_eq_real`).length)return alert(`Adicione foto do equipamento realocado (item ${i+1}).`);
+    if(tipo==='Aquisição'&&(!getPhotos(`mov_${i}_placa_aqui`).length||getPhotos(`mov_${i}_placa_aqui`).length<2))return alert(`Adicione pelo menos 2 fotos da placa do equipamento adquirido (item ${i+1}).`);
+    if(tipo==='Aquisição'&&!getPhotos(`mov_${i}_eq_aqui`).length)return alert(`Adicione foto do equipamento adquirido (item ${i+1}).`);
+    if(tipo==='Empréstimo'&&(!getPhotos(`mov_${i}_placa_emp`).length||getPhotos(`mov_${i}_placa_emp`).length<2))return alert(`Adicione pelo menos 2 fotos da placa do equipamento emprestado (item ${i+1}).`);
+    if(tipo==='Empréstimo'&&!getPhotos(`mov_${i}_eq_emp`).length)return alert(`Adicione foto do equipamento emprestado (item ${i+1}).`);
+  }
+  const allPhotoKeys=[];
+  movItems.forEach((_,i)=>{
+    ['placa_inst','eq_inst','placa_des','eq_des','placa_real','eq_real','placa_aqui','eq_aqui','placa_emp','eq_emp'].forEach(k=>allPhotoKeys.push(`mov_${i}_${k}`));
+  });
+  const itemsData=movItems.map((item,i)=>({...item,
+    fotos:{
+      placaInst:(photoStores[`mov_${i}_placa_inst`]||[]).map(p=>p.data),
+      eqInst:(photoStores[`mov_${i}_eq_inst`]||[]).map(p=>p.data),
+      placaDes:(photoStores[`mov_${i}_placa_des`]||[]).map(p=>p.data),
+      eqDes:(photoStores[`mov_${i}_eq_des`]||[]).map(p=>p.data),
+      placaReal:(photoStores[`mov_${i}_placa_real`]||[]).map(p=>p.data),
+      eqReal:(photoStores[`mov_${i}_eq_real`]||[]).map(p=>p.data),
+      placaAqui:(photoStores[`mov_${i}_placa_aqui`]||[]).map(p=>p.data),
+      eqAqui:(photoStores[`mov_${i}_eq_aqui`]||[]).map(p=>p.data),
+      placaEmp:(photoStores[`mov_${i}_placa_emp`]||[]).map(p=>p.data),
+      eqEmp:(photoStores[`mov_${i}_eq_emp`]||[]).map(p=>p.data),
+    }
+  }));
+  const ok=await saveDoc({tipo:'4_movimentacao',tipoLabel:'Movimentação de Equipamentos',nome,sub,movItems:itemsData},{});
+  if(ok){successState.mov=true;movItems=[];renderPage();}
+};
+
+window.saveAsBuilt=async()=>{
+  const nome=getTxt('ab_nome'),sub=getTxt('ab_sub'),desc=getTxt('ab_desc'),motivo=getTxt('ab_motivo'),dir=getTxt('ab_diretorio');
+  if(!nome||!sub)return alert('Preencha Nome e Subestação.');
+  if(!desc)return alert('Descreva detalhadamente o que foi feito (campo 1).');
+  if(!motivo)return alert('Informe o motivo (campo 2).');
+  if(!dir)return alert('Informe o diretório das fotos adicionais (campo 7).');
+  if(!getPhotos('ab_painel').length)return alert('Adicione foto do painel (campo 5).');
+  if(!getPhotos('ab_alteracao').length)return alert('Adicione foto da alteração (campo 6).');
+  const ok=await saveDoc({tipo:'5_asbuilt',tipoLabel:'As Built',nome,sub,desc,motivo,info:getTxt('ab_info'),projetosOk:getYN('ab_projetos'),diretorio:dir},['ab_painel','ab_alteracao']);
+  if(ok){successState.asbuilt=true;renderPage();}
+};
+
+window.saveFinal=async()=>{
+  const nome=getTxt('fin_nome'),sub=getTxt('fin_sub'),apto=getYN('fin_apto'),dir=getTxt('fin_diretorio');
+  if(!nome||!sub)return alert('Preencha Nome e Subestação.');
+  if(!apto)return alert('Indique se a obra está concluída ou com pendências.');
+  if(!dir)return alert('Informe o diretório das fotos adicionais.');
+  const fotosObrig=['fin_patio_1','fin_patio_2','fin_patio_3','fin_cc_1','fin_cc_2','fin_cc_3'];
+  for(const k of fotosObrig){if(!getPhotos(k).length)return alert(`Adicione a foto obrigatória: ${k.replace('fin_','').replace('_',' ')}`);}
+  const checks={};
+  ['fin_eq_proj','fin_eq_placa','fin_eq_aterr','fin_eq_cab','fin_eq_cond','fin_eq_limpeza','fin_cc_painel','fin_cc_fiacao','fin_cc_rele','fin_cc_alim','fin_cc_alarmes','fin_cc_limpeza','fin_cc_acesso','fin_cv_bases','fin_cv_dreno','fin_cv_cerca','fin_cv_acabamento','fin_cv_problema','fin_em_concluida','fin_em_pendencias','fin_em_doc','fin_em_treinamento','fin_seg_sinalizacao','fin_seg_epi','fin_seg_residuos'].forEach(k=>{checks[k]=getCheck(k);});
+  const ok=await saveDoc({tipo:'6_final',tipoLabel:'Checklist Final de Obra',nome,sub,apto,obs:getTxt('fin_obs'),diretorio:dir,checks},fotosObrig);
+  if(ok){successState.final=true;renderPage();}
+};
+
+// ── LISTENER ──────────────────────────────────────────────
+function startListener(){
+  if(listenerStarted)return;
+  listenerStarted=true;
+  try {
+    onSnapshot(
+      query(col,orderBy('timestamp','desc')),
+      snap=>{
+        allRegistros=snap.docs.map(d=>({id:d.id,...d.data()}));
+        if($('main-content')&&mainTab==='painel')renderPainel();
+      },
+      err=>{
+        console.warn('[Firestore] Offline ou erro:',err.message);
+        listenerStarted=false; // allow retry when back online
+      }
+    );
+  } catch(e){
+    console.warn('[Firestore] startListener erro:',e.message);
+    listenerStarted=false;
+  }
+}
+
+// ── INIT: carrega sessão após todas as funções estarem definidas ──
+(function initSession(){
+  const sess = loadSession();
+  if(sess){
+    currentUser = sess;
+    isAdmin = sess.isAdmin || false;
+    showApp();
+  } else {
+    showLogin();
+  }
+})();
+</script>
+
+<script>
+// Connectivity banner
+window.addEventListener('online', () => {
+  const b = document.getElementById('offline-banner');
+  if(b) b.style.display = 'none';
+});
+window.addEventListener('offline', () => {
+  const b = document.getElementById('offline-banner');
+  if(b) b.style.display = 'flex';
+});
+// Service Worker
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
